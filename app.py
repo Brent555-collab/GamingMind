@@ -371,13 +371,38 @@ else:
             
     st.write("---")
 
-    # =========================================================================
+        # =========================================================================
     # PLAYER - SUBPAGE 2: Healing & Recommendations Page (卡片悬停平滑展开版)
     # =========================================================================
     if identity == "Player" and st.session_state.player_subpage == "recommendations":
-        # 注入局部 CSS 样式，实现卡片悬停时平滑展开详细信息
+        # 注入局部 CSS 样式，实现卡片悬停时平滑展开详细信息，并确保两列卡片完美等宽、对齐
         st.markdown("""
             <style>
+            /* 🎮 游戏推荐卡片 - 基础样式 */
+            .game-recommend-card {
+                width: 100%;
+                box-sizing: border-box;
+                height: 160px; /* 统一初始高度 */
+                margin-bottom: 20px;
+                padding: 24px;
+                background-color: #F8FAFC;
+                border: 1px solid #E2E8F0;
+                border-left: 5px solid #2980B9; /* 蓝色左边条 */
+                border-radius: 12px;
+                transition: height 0.4s ease, transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+                overflow: hidden; /* 隐藏折叠内容 */
+                cursor: pointer;
+            }
+
+            /* 🎮 游戏推荐卡片 - 悬停展开样式 */
+            .game-recommend-card:hover {
+                height: 320px; /* 悬停展开后的高度 */
+                transform: translateY(-2px);
+                box-shadow: 0 10px 15px -3px rgba(41, 128, 185, 0.1), 0 4px 6px -2px rgba(41, 128, 185, 0.05);
+                background-color: #F0F9FF; /* 悬停时变为淡蓝色 */
+                border-color: #BAE6FD;
+            }
+
             /* 悬停详细信息区域默认隐藏 */
             .hover-details {
                 max-height: 0px;
@@ -387,24 +412,41 @@ else:
                 padding-top: 0px;
                 border-top: 0px dashed transparent;
                 font-size: 14px;
-                color: #2C3E50;
+                color: #334155;
                 line-height: 1.6;
             }
+
             /* 鼠标悬停在卡片上时，平滑展开并显示蓝色虚线分割线 */
             .game-recommend-card:hover .hover-details {
-                max-height: 300px; /* 足够容纳文字的高度 */
+                max-height: 200px; /* 足够容纳文字的高度 */
                 margin-top: 15px;
                 padding-top: 15px;
-                border-top: 1.5px dashed #2980B9;
+                border-top: 1.5px dashed #93C5FD;
             }
-            /* 鼠标指针样式提示 */
-            .game-recommend-card {
-                cursor: pointer;
-                transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+            /* 🌿 现实世界充电站卡片 - 基础样式 */
+            .real-world-card {
+                width: 100%;
+                box-sizing: border-box;
+                height: 160px; /* 与游戏卡片初始高度完全一致，确保完美对齐 */
+                margin-bottom: 20px;
+                padding: 24px;
+                background-color: #F8FAFC;
+                border: 1px solid #E2E8F0;
+                border-left: 5px solid #27AE60; /* 绿色左边条 */
+                border-radius: 12px;
+                transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+                display: flex;
+                flex-direction: column;
+                justify-content: center; /* 内容垂直居中 */
             }
-            .game-recommend-card:hover {
+
+            /* 🌿 现实世界充电站卡片 - 悬停微动 */
+            .real-world-card:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 6px 12px rgba(41, 128, 185, 0.15);
+                box-shadow: 0 10px 15px -3px rgba(39, 174, 96, 0.1), 0 4px 6px -2px rgba(39, 174, 96, 0.05);
+                background-color: #F0FDF4; /* 悬停时变为淡绿色 */
+                border-color: #BBF7D0;
             }
             </style>
         """, unsafe_allow_html=True)
@@ -426,7 +468,7 @@ else:
                 
                 st.markdown("""
                 <div class="game-recommend-card">
-                    <h4 style="color: #2980B9; margin-top:0;">It Takes Two</h4>
+                    <h4 style="color: #2980B9; margin: 0 0 8px 0;">It Takes Two</h4>
                     <p style="margin-bottom:0; font-size:14px; line-height:1.5;">
                         <b>Mandatory two-player cooperation. Engaging in lighthearted communication heavily dilutes loneliness and rebuilds interpersonal connections.</b>
                     </p>
@@ -436,7 +478,7 @@ else:
                     </div>
                 </div>
                 <div class="game-recommend-card">
-                    <h4 style="color: #2980B9; margin-top:0;">Stardew Valley</h4>
+                    <h4 style="color: #2980B9; margin: 0 0 8px 0;">Stardew Valley</h4>
                     <p style="margin-bottom:0; font-size:14px; line-height:1.5;">
                         <b>Free, slow-paced pixel pastoral life. There are no deadlines here, allowing tense nerves to fully relax.</b> 
                     </p>
@@ -446,7 +488,7 @@ else:
                     </div>
                 </div>
                 <div class="game-recommend-card">
-                    <h4 style="color: #2980B9; margin-top:0;">Sky: Children of the Light</h4>
+                    <h4 style="color: #2980B9; margin: 0 0 8px 0;">Sky: Children of the Light</h4>
                     <p style="margin-bottom:0; font-size:14px; line-height:1.5;">
                         <b>A visual feast of soaring through the clouds. It promotes wordless kindness and pure mutual assistance, awakening inner peace.</b>
                     </p>
@@ -462,7 +504,7 @@ else:
                 
                 st.markdown("""
                 <div class="game-recommend-card">
-                    <h4 style="color: #2980B9; margin-top:0;">《双人成行》 (It Takes Two)</h4>
+                    <h4 style="color: #2980B9; margin: 0 0 8px 0;">《双人成行》 (It Takes Two)</h4>
                     <p style="margin-bottom:0; font-size:14px; line-height:1.5;">
                         <b>双人合作。在欢声笑语的沟通中，能极大地稀释孤独感，重建人际连接。</b> 
                     </p>
@@ -472,7 +514,7 @@ else:
                     </div>
                 </div>
                 <div class="game-recommend-card">
-                    <h4 style="color: #2980B9; margin-top:0;">《星露谷物语》 (Stardew Valley)</h4>
+                    <h4 style="color: #2980B9; margin: 0 0 8px 0;">《星露谷物语》 (Stardew Valley)</h4>
                     <p style="margin-bottom:0; font-size:14px; line-height:1.5;">
                         <b>自由的慢节奏像素田园生活。在这里没有ddl，能让紧绷的神经彻底松弛。</b> 
                     </p>
@@ -482,7 +524,7 @@ else:
                     </div>
                 </div>
                 <div class="game-recommend-card">
-                    <h4 style="color: #2980B9; margin-top:0;">《光·遇》 (Sky: Children of the Light)</h4>
+                    <h4 style="color: #2980B9; margin: 0 0 8px 0;">《光·遇》 (Sky: Children of the Light)</h4>
                     <p style="margin-bottom:0; font-size:14px; line-height:1.5;">
                         <b>翱翔云端的视觉盛宴，推崇无言的善意与纯粹的互助，唤醒内心的宁静。</b> 
                     </p>
@@ -492,6 +534,57 @@ else:
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
+
+        with col_rec_right:
+            if lang == "en":
+                st.markdown("### Real-World Recharge")
+                st.write("Besides gaming, there are many clinically proven healthy activities in the physical world that quickly lower stress hormones:")
+                
+                st.markdown("""
+                <div class="real-world-card">
+                    <h4 style="color: #27AE60; margin: 0 0 8px 0;">15-Minute "Green Exercise"</h4>
+                    <p style="margin:0; font-size:14px; line-height:1.5;">
+                        <b>Scientific Principle:</b> Walk in a park for 15 minutes. Bilateral alternating movement during walking directly reduces amygdala activity, naturally burning away stress.
+                    </p>
+                </div>
+                <div class="real-world-card">
+                    <h4 style="color: #27AE60; margin: 0 0 8px 0;">Offline "Face-to-Face" Socializing</h4>
+                    <p style="margin:0; font-size:14px; line-height:1.5;">
+                        <b>Scientific Principle:</b> Meet a friend offline. Real-time facial interaction stimulates oxytocin secretion, acting as a natural antidote to anxiety.
+                    </p>
+                </div>
+                <div class="real-world-card">
+                    <h4 style="color: #27AE60; margin: 0 0 8px 0;">Active Exercise & Stretching</h4>
+                    <p style="margin:0; font-size:14px; line-height:1.5;">
+                        <b>Scientific Principle:</b> 30 minutes of jogging or yoga. Moderate physical fatigue prompts the brain to secrete endorphins, bringing physical pleasure and improving sleep.
+                    </p>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("### 现实世界充电站 (Real-World Recharge)")
+                st.write("除了游戏，现实世界中也有许多经过临床证实的、能快速降低压力荷尔蒙的健康消遣：")
+                
+                st.markdown("""
+                <div class="real-world-card">
+                    <h4 style="color: #27AE60; margin: 0 0 8px 0;">15分钟“绿色森林浴” (Green Exercise)</h4>
+                    <p style="margin:0; font-size:14px; line-height:1.5;">
+                        <b>科学原理：</b> 去公园散步15分钟。步行时的双侧交替运动能直接降低大脑杏仁核的活跃度，自然烧掉压力。
+                    </p>
+                </div>
+                <div class="real-world-card">
+                    <h4 style="color: #27AE60; margin: 0 0 8px 0;">线下“面对面”茶话会 (Real Connection)</h4>
+                    <p style="margin:0; font-size:14px; line-height:1.5;">
+                        <b>科学原理：</b> 约一位好友线下聚会。面部表情的实时互动能刺激催产素的分泌，是天然的焦虑解药。
+                    </p>
+                </div>
+                <div class="real-world-card">
+                    <h4 style="color: #27AE60; margin: 0 0 8px 0;">暴汗运动与拉伸 (Endorphin Release)</h4>
+                    <p style="margin:0; font-size:14px; line-height:1.5;">
+                        <b>科学原理：</b> 30分钟慢跑或瑜伽。身体的适度疲劳会促使大脑分泌内啡肽，带来生理愉悦并改善睡眠。
+                    </p>
+                </div>
+                """, unsafe_allow_html=True)
+
 
         with col_rec_right:
             if lang == "en":
