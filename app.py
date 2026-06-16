@@ -49,27 +49,41 @@ st.markdown("""
         transition: all 0.2s ease !important;
     }
     
-    /* 👤 Identity Descriptive Cards */
+        /* 👤 Identity Descriptive Cards */
     .identity-card-player {
+        width: 100%;                  /* 强制撑满左边列宽 */
+        box-sizing: border-box;       /* 防止 padding 撑破布局 */
+        height: 260px;                /* 强制固定高度，确保两边绝对等高 */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;      /* 内容垂直居中 */
+        align-items: center;          /* 内容水平居中 */
+        
         background-color: #EAF2F8;
         border: 2px solid #AED6F1;
-        padding: 30px;
+        padding: 25px;
         border-radius: 15px;
-        text-align: center;
-        min-height: 240px;
         color: #2C3E50;
         box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
+    
     .identity-card-medical {
+        width: 100%;                  /* 强制撑满右边列宽 */
+        box-sizing: border-box;       /* 防止 padding 撑破布局 */
+        height: 260px;                /* 强制固定高度，确保两边绝对等高 */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;      /* 内容垂直居中 */
+        align-items: center;          /* 内容水平居中 */
+        
         background-color: #E8F8F5;
         border: 2px solid #A9DFBF;
-        padding: 30px;
+        padding: 25px;
         border-radius: 15px;
-        text-align: center;
-        min-height: 240px;
         color: #2C3E50;
         box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
+
     .portal-icon { font-size: 55px; margin-bottom: 15px; }
     .portal-title { font-size: 24px; font-weight: bold; margin-bottom: 12px; }
     .portal-desc { font-size: 14px; color: #5D6D7E; line-height: 1.5; margin-bottom: 10px; }
