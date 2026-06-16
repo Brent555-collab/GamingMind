@@ -110,7 +110,7 @@ LOCALES = {
         "q_hours": "3. 每周游戏时长 (小时/周)",
         "q_game_type": "4. 主要游戏类型",
         "q_behavior": "5. 实际游玩与互动行为 (可多选 - 点击切换状态)",
-        "behavior_solo": "独自游玩 (孤狼玩家)",
+        "behavior_solo": "独自游玩",
         "behavior_social": "积极社交 (在社交媒体/论坛分享、交流)",
         "btn_eval": "开始评估",
         "evaluating": "正在分析行为习惯并绘制多维图谱...",
@@ -1047,9 +1047,9 @@ else:
                             protectors.append("<b>" + ("混合健康游玩" if lang == "zh" else "Healthy Hybrid Playstyle") + "</b>: " + ("既享受独处沉浸，又乐于社区分享，形成极佳的情绪缓冲。" if lang == "zh" else "Enjoys focused solo play while actively sharing online. Excellent buffer!"))
                         elif has_solo:
                             if game_type_code == "Multiplayer / Online Games":
-                                drivers.append("<b>" + ("网游孤狼状态" if lang == "zh" else "Online Game but Solo Play") + "</b>: " + ("在多人网游中缺乏社交支持，独自面对竞技压力。" if lang == "zh" else "Facing competitive online matchmaking without friends to buffer stress."))
+                                drivers.append("<b>" + ("网游独自状态" if lang == "zh" else "Online Game but Solo Play") + "</b>: " + ("在多人网游中缺乏社交支持，独自面对竞技压力。" if lang == "zh" else "Facing competitive online matchmaking without friends to buffer stress."))
                             else:
-                                drivers.append("<b>" + ("单机孤狼状态" if lang == "zh" else "Pure Solo Gaming") + "</b>: " + ("完全孤立游玩，缺乏外部社区交流和情绪宣泄渠道。" if lang == "zh" else "Immersing in single-player worlds completely isolated limits emotional venting."))
+                                drivers.append("<b>" + ("单机状态" if lang == "zh" else "Pure Solo Gaming") + "</b>: " + ("完全孤立游玩，缺乏外部社区交流和情绪宣泄渠道。" if lang == "zh" else "Immersing in single-player worlds completely isolated limits emotional venting."))
                         elif has_social:
                             if game_type_code == "Single-player Games":
                                 protectors.append("<b>" + ("单机社区共鸣" if lang == "zh" else "Single-player with Community Connection") + "</b>: " + ("在社交媒体分享单机心得，连接了温暖的同好社区。" if lang == "zh" else "Sharing achievements online connects you to a warm community."))
@@ -1250,7 +1250,7 @@ else:
                             <p style="margin:0; font-size: 16px; color: #2C3E50; line-height: 1.7;">
                                 • <b>生理易感性 (Bio-Vulnerability):</b> 评分 {bio_vul}%。基于受试者年龄与性别生理易感性。<br>
                                 • <b>认知行为负荷 (Cognitive Load):</b> 评分 {cog_load}%。受每周高频屏幕暴露与神经疲劳驱动。<br>
-                                • <b>社会支持缺失 (Social Deficit):</b> 评分 {soc_def}%。反映线下社交隔离与孤狼游玩习惯。<br>
+                                • <b>社会支持缺失 (Social Deficit):</b> 评分 {soc_def}%。反映线下社交隔离与独自游玩习惯。<br>
                                 • <b>睡眠受损度 (Sleep Impairment):</b> 评分 {sleep_imp}%。高频晚间屏幕暴露对褪黑素分泌的潜在抑制。<br>
                                 • <b>情绪代偿依赖 (Escapism Dependency):</b> 评分 {escapism}%。评估受试者将游戏作为唯一压力宣泄口的精神代偿倾向。
                             </p>
