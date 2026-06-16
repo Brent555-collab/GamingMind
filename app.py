@@ -141,7 +141,7 @@ LOCALES = {
         "cli_low_desc": "受试者各项筛查指标均在健康基线范围内。无需临床干预，建议维持常规随访。",
         
         # Feature 2 (Scale & Chart)
-        "scale_title": "功能二：您的心理健康天平",
+        "scale_title": "您的心理健康天平",
         "scale_sub": "我们将您的生活习惯视为一个天平。左侧增加压力，右侧提供保护：",
         "plate_left": " 左盘 (压力砝码)",
         "plate_right": " 右盘 (保护盾牌)",
@@ -149,7 +149,7 @@ LOCALES = {
         "scale_right_tilt": "天平状态：向右倾斜 ( 保护伞充足，心理韧性良好)",
         "scale_balance": "天平状态：完美平衡 ( 处于临界平衡状态)",
         
-        "cli_chart_title": " 功能二：多维心理健康临床图谱 (Clinical Radar Chart)",
+        "cli_chart_title": " 多维心理健康临床图谱 (Clinical Radar Chart)",
         "cli_chart_sub": "基于受试者动态数据的五维病理特征偏离度分析（对比健康对照组）：",
         
         # Protectors
