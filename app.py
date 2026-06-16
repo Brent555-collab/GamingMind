@@ -371,39 +371,43 @@ else:
             
     st.write("---")
 
-        # =========================================================================
+    # ==========================================
+# 🖥️ ROUTE 2: Main Application Dashboard (Start)
+# ==========================================
+else:
+    lang = st.session_state.language
+    identity = st.session_state.identity
+    t = LOCALES[lang]
+
+    # =========================================================================
     # PLAYER - SUBPAGE 2: Healing & Recommendations Page (卡片悬停平滑展开版)
     # =========================================================================
     if identity == "Player" and st.session_state.player_subpage == "recommendations":
-        # 注入局部 CSS 样式，实现卡片悬停时平滑展开详细信息，并确保两列卡片完美等宽、对齐
+        # 1. 注入局部 CSS 样式
         st.markdown("""
             <style>
             /* 🎮 游戏推荐卡片 - 基础样式 */
             .game-recommend-card {
                 width: 100%;
                 box-sizing: border-box;
-                height: 160px; /* 统一初始高度 */
+                height: 160px;
                 margin-bottom: 20px;
                 padding: 24px;
                 background-color: #F8FAFC;
                 border: 1px solid #E2E8F0;
-                border-left: 5px solid #2980B9; /* 蓝色左边条 */
+                border-left: 5px solid #2980B9;
                 border-radius: 12px;
                 transition: height 0.4s ease, transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-                overflow: hidden; /* 隐藏折叠内容 */
+                overflow: hidden;
                 cursor: pointer;
             }
-
-            /* 🎮 游戏推荐卡片 - 悬停展开样式 */
             .game-recommend-card:hover {
-                height: 320px; /* 悬停展开后的高度 */
+                height: 320px;
                 transform: translateY(-2px);
                 box-shadow: 0 10px 15px -3px rgba(41, 128, 185, 0.1), 0 4px 6px -2px rgba(41, 128, 185, 0.05);
-                background-color: #F0F9FF; /* 悬停时变为淡蓝色 */
+                background-color: #F0F9FF;
                 border-color: #BAE6FD;
             }
-
-            /* 悬停详细信息区域默认隐藏 */
             .hover-details {
                 max-height: 0px;
                 overflow: hidden;
@@ -415,125 +419,70 @@ else:
                 color: #334155;
                 line-height: 1.6;
             }
-
-            /* 鼠标悬停在卡片上时，平滑展开并显示蓝色虚线分割线 */
             .game-recommend-card:hover .hover-details {
-                max-height: 200px; /* 足够容纳文字的高度 */
+                max-height: 200px;
                 margin-top: 15px;
                 padding-top: 15px;
                 border-top: 1.5px dashed #93C5FD;
             }
-
             /* 🌿 现实世界充电站卡片 - 基础样式 */
             .real-world-card {
                 width: 100%;
                 box-sizing: border-box;
-                height: 160px; /* 与游戏卡片初始高度完全一致，确保完美对齐 */
+                height: 160px;
                 margin-bottom: 20px;
                 padding: 24px;
                 background-color: #F8FAFC;
                 border: 1px solid #E2E8F0;
-                border-left: 5px solid #27AE60; /* 绿色左边条 */
+                border-left: 5px solid #27AE60;
                 border-radius: 12px;
                 transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
                 display: flex;
                 flex-direction: column;
-                justify-content: center; /* 内容垂直居中 */
+                justify-content: center;
             }
-
-            /* 🌿 现实世界充电站卡片 - 悬停微动 */
             .real-world-card:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 10px 15px -3px rgba(39, 174, 96, 0.1), 0 4px 6px -2px rgba(39, 174, 96, 0.05);
-                background-color: #F0FDF4; /* 悬停时变为淡绿色 */
+                background-color: #F0FDF4;
                 border-color: #BBF7D0;
             }
             </style>
         """, unsafe_allow_html=True)
 
+        # 2. 渲染推荐页专属标题
         st.markdown(f'<div class="main-title" style="color: #27AE60;">{t["heal_title"]}</div>', unsafe_allow_html=True)
         st.markdown(f'<div class="subtitle">{t["heal_sub"]}</div>', unsafe_allow_html=True)
         
+        # 3. 推荐页专属返回按钮
         if st.button(t["btn_back_report"], key="btn_back_top", type="secondary"):
             st.session_state.player_subpage = "main"
             st.rerun()
             
-        st.write("")
-        col_rec_left, col_rec_right = st.columns(2, gap="large")
+        st.write("---")
         
-        with col_rec_left:
-            if lang == "en":
-                st.markdown("### Therapeutic Games")
-                st.write("Hover your mouse over the cards below to reveal the story background and gameplay rules:")
+        # ... 后面接 col_rec_left 和 col_rec_right 的卡片内容 ...
+
+    # =========================================================================
+    # PLAYER MAIN DASHBOARD & CLINICIAN PAGES (主面板逻辑)
+    # =========================================================================
+    else:
+        # 🌟 只有在非推荐页（即主面板）时，才显示顶部的欢迎栏和重置按钮
+        top_col_title, top_col_btn = st.columns([4, 1])
+        with top_col_title:
+            st.markdown(f'<div class="main-title">{t["welcome_title"]} <span style="font-size:16px; color:#3498DB;">({t["player"] if identity == "Player" else t["medical"]})</span></div>', unsafe_allow_html=True)
+        with top_col_btn:
+            if st.button(t["btn_back"], use_container_width=True):
+                for key in ["last_risk_prob", "last_drivers", "last_protectors", "last_hours", "last_age", "last_gender", "last_has_solo", "last_has_social"]:
+                    if key in st.session_state:
+                        del st.session_state[key]
+                st.session_state.confirmed = False
+                st.rerun()
                 
-                st.markdown("""
-                <div class="game-recommend-card">
-                    <h4 style="color: #2980B9; margin: 0 0 8px 0;">It Takes Two</h4>
-                    <p style="margin-bottom:0; font-size:14px; line-height:1.5;">
-                        <b>Mandatory two-player cooperation. Engaging in lighthearted communication heavily dilutes loneliness and rebuilds interpersonal connections.</b>
-                    </p>
-                    <div class="hover-details">
-                        <p style="margin: 0 0 8px 0;"><b>Story Background:</b> A broken couple is turned into clay dolls by a magic book. They must work together to repair their relationship and return to the real world.</p>
-                        <p style="margin: 0;"><b>Gameplay Rules:</b> A strict two-player cooperative game. Two players must cooperate using completely different, unique abilities in each level to solve puzzles and pass challenges.</p>
-                    </div>
-                </div>
-                <div class="game-recommend-card">
-                    <h4 style="color: #2980B9; margin: 0 0 8px 0;">Stardew Valley</h4>
-                    <p style="margin-bottom:0; font-size:14px; line-height:1.5;">
-                        <b>Free, slow-paced pixel pastoral life. There are no deadlines here, allowing tense nerves to fully relax.</b> 
-                    </p>
-                    <div class="hover-details">
-                        <p style="margin: 0 0 8px 0;"><b>Story Background:</b> You inherit your grandfather's old farm plot in Stardew Valley. Armed with hand-me-down tools and a few coins, you set out to begin your new life.</p>
-                        <p style="margin: 0;"><b>Gameplay Rules:</b> A simulation role-playing game. Players raise livestock, grow crops, mine ores, socialise with townspeople, and rebuild the community at their own pace.</p>
-                    </div>
-                </div>
-                <div class="game-recommend-card">
-                    <h4 style="color: #2980B9; margin: 0 0 8px 0;">Sky: Children of the Light</h4>
-                    <p style="margin-bottom:0; font-size:14px; line-height:1.5;">
-                        <b>A visual feast of soaring through the clouds. It promotes wordless kindness and pure mutual assistance, awakening inner peace.</b>
-                    </p>
-                    <div class="hover-details">
-                        <p style="margin: 0 0 8px 0;"><b>Story Background:</b> As the Children of the Light, players spread hope through a desolate kingdom to return fallen Stars to their constellations.</p>
-                        <p style="margin: 0;"><b>Gameplay Rules:</b> An open-world social adventure game. Players fly across beautiful realms, solve puzzles together, and light candles to connect with other players without verbal communication.</p>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-            else:
-                st.markdown("### 疗愈系游戏推荐 (Therapeutic Games)")
-                st.write("将鼠标悬停在下方卡片上，即可展开查看游戏的故事背景与玩法规则：")
-                
-                st.markdown("""
-                <div class="game-recommend-card">
-                    <h4 style="color: #2980B9; margin: 0 0 8px 0;">《双人成行》 (It Takes Two)</h4>
-                    <p style="margin-bottom:0; font-size:14px; line-height:1.5;">
-                        <b>双人合作。在欢声笑语的沟通中，能极大地稀释孤独感，重建人际连接。</b> 
-                    </p>
-                    <div class="hover-details">
-                        <p style="margin: 0 0 8px 0;"><b>故事背景：</b> 一对感情破裂的夫妻被魔法书变成了泥人玩偶，他们必须齐心协力通过重重考验，修复彼此的关系并回到现实世界。</p>
-                        <p style="margin: 0;"><b>玩法规则：</b> 严格的双人合作游戏。两位玩家必须使用各自完全不同且独特的关卡能力，默契配合进行解谜、战斗与跑酷。</p>
-                    </div>
-                </div>
-                <div class="game-recommend-card">
-                    <h4 style="color: #2980B9; margin: 0 0 8px 0;">《星露谷物语》 (Stardew Valley)</h4>
-                    <p style="margin-bottom:0; font-size:14px; line-height:1.5;">
-                        <b>自由的慢节奏像素田园生活。在这里没有ddl，能让紧绷的神经彻底松弛。</b> 
-                    </p>
-                    <div class="hover-details">
-                        <p style="margin: 0 0 8px 0;"><b>故事背景：</b> 你继承了爷爷在星露谷留下的旧农场。带着几件简旧的农具和几枚硬币，你决定离开喧嚣的都市，开启全新的田园生活。</p>
-                        <p style="margin: 0;"><b>玩法规则：</b> 模拟经营与角色扮演游戏。玩家可以自由决定每日行程，包括开垦荒地、种植作物、饲养动物、去矿洞冒险，以及与小镇居民建立友谊。</p>
-                    </div>
-                </div>
-                <div class="game-recommend-card">
-                    <h4 style="color: #2980B9; margin: 0 0 8px 0;">《光·遇》 (Sky: Children of the Light)</h4>
-                    <p style="margin-bottom:0; font-size:14px; line-height:1.5;">
-                        <b>翱翔云端的视觉盛宴，推崇无言的善意与纯粹的互助，唤醒内心的宁静。</b> 
-                    </p>
-                    <div class="hover-details">
-                        <p style="margin: 0 0 8px 0;"><b>故事背景：</b> 玩家作为“光之后裔”，肩负着将光明与星星带回失落王国的使命，在云端与荒野间展开寻找自我的旅程。</p>
-                        <p style="margin: 0;"><b>玩法规则：</b> 开放世界社交冒险游戏。玩家在美丽的场景中翱翔，通过点亮蜡烛与其他玩家相识，无需言语，仅靠动作、琴声和牵手共同解谜通关。</p>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
+        st.write("---")
+        
+        # ... 这里放您原来的主面板评估表单、雷达图等代码 ...
+
 
         with col_rec_right:
             if lang == "en":
